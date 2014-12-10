@@ -27,7 +27,7 @@ var tick = function()
 	ctx.clearRect (0, 0, screen.width, screen.height);
 	if(y + 400 < screen.height)
 	yV+=1;
-	document.getElementById("label").innerHTML = yV + " " + x +" " + Math.floor(y);
+	document.getElementById("label").innerHTML = yV + " " + x +" " + Math.floor(y) + "the screen is" + screen.width + " by " + screen.height;
 	x+=xAcceleration;
 	y+=yV;
 	ctx.beginPath();
