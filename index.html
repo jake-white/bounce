@@ -4,18 +4,18 @@
 <button type = "button id = "stop" onclick = "stopTicking();">Stop</button>
 </form>
 <p id = "label"></p>
-<canvas id="screen" width="800" height="450"
+<canvas id="canvas" width="800" height="450"
 style="border:3px solid black">
 </canvas>
 
 <script>
-var c = document.getElementById("screen");
+var c = document.getElementById("canvas");
 var ctx = c.getContext("2d");
 var x = 95, y=50;
 var xAcceleration = 0, yV = 0;
 var tick = function()
 {
-	if((y + 400) >= screen.height || y <= 0)
+	if((y + 50) >= canvas.height || y <= 0)
 	{
 		yV = -yV;
 		if(yV>0)
@@ -24,10 +24,10 @@ var tick = function()
 		yV+=1;
 	}
 		
-	ctx.clearRect (0, 0, screen.width, screen.height);
-	if(y + 400 < screen.height)
+	ctx.clearRect (0, 0, canvas.width, canvas.height);
+	if(y + 50 < canvas.height)
 	yV+=1;
-	document.getElementById("label").innerHTML = yV + " " + x +" " + Math.floor(y) + "the screen is" + screen.width + " by " + screen.height;
+	document.getElementById("label").innerHTML = yV + " " + x +" " + Math.floor(y) + "the canvas is" + canvas.width + " by " + canvas.height;
 	x+=xAcceleration;
 	y+=yV;
 	ctx.beginPath();
