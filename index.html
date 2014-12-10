@@ -27,7 +27,7 @@ var tick = function()
 	ctx.clearRect (0, 0, canvas.width, canvas.height);
 	if(y + 50 < canvas.height)
 	yV+=1;
-	document.getElementById("label").innerHTML = yV + " " + x +" " + Math.floor(y) + "the canvas is" + canvas.width + " by " + canvas.height;
+	document.getElementById("label").innerHTML = "The ball is traveling at yVelocity = " + yV + " at (" + Math.floor(x) +", " + Math.floor(y) +")";
 	x+=xAcceleration;
 	y+=yV;
 	ctx.beginPath();
