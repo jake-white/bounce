@@ -1,144 +1,129 @@
 <html>
-<body onload = "draw()">
+<body onload="draw()">
 <form>
-<button type = "button" id="start" onclick = "startButton();">Start</button>
-<button type = "button" id = "reset" onclick = "resetButton();">Reset</button>
+    <button type="button" id="start" onclick="startButton();">Start</button>
+    <button type="button" id="reset" onclick="resetButton();">Reset</button>
 </form>
 <form>
-<button type = "button" id = "stop" onclick = "stopTicking();">Pause</button>
-<button type = "button" id = "stop" onclick = "resume();">Resume</button>
+    <button type="button" id="stop" onclick="stopTicking();">Pause</button>
+    <button type="button" id="stop" onclick="resume();">Resume</button>
 </form>
 <form>
-Starting X Velocity<input type = "number" id = "xin" value = "6">
-Starting Y Velocity<input type = "number" id = "yin" value = "0">
+    Starting X Velocity<input type="number" id="xin" value="6">
+    Starting Y Velocity<input type="number" id="yin" value="0">
 </form>
 <canvas id="canvas" width="800" height="450">
 </canvas>
-<p id = "label"></p>
+<p id="label"></p>
 </body>
 <script>
-var c = document.getElementById("canvas");
-var ctx = c.getContext("2d");
-var x = 95, y=50;
-var vX = 0, vY = 0;
-var bounceFy = 3;
-var bounceFx = 1;
-var floor = 400, side = 700;
-var size = 10;
-var frame = 0;
-var interval;
-var resetInfo = function()
-{	
-	x = 95, y=50;
-	vX = 0, vY = 0;
-	bounceFy = 3;
-	bounceFx = 1;
-	floor = 400, side = 700;
-	size = 10;
-	frame = 0;
-}
-	
-var startButton = function()
-{
-	clearInterval(interval);
-	interval = setInterval(tick, 20);
-	vX = parseInt(document.getElementById("xin").value);
-	vY = parseInt(document.getElementById("yin").value);
-}
-var resume = function()
-{
-	clearInterval(interval);
-	interval = setInterval(tick, 20);
-}
-	
-var resetButton = function()
-{
-	stopTicking();	
-	resetInfo();
-	draw();
-}
-var draw = function()
-{		
-	ctx.clearRect (0, 0, canvas.width, canvas.height);
-	ctx.beginPath();
-	ctx.fillStyle = "red";
-	ctx.arc(x,y,size,0,2*Math.PI);
-	ctx.fill();
-	ctx.moveTo(0,0);
-	ctx.lineTo(0,floor);
-	ctx.moveTo(0,0);
-	ctx.lineTo(side, 0);
-	ctx.moveTo(0,floor);
-	ctx.lineTo(side,floor);
-	ctx.moveTo(side,0);
-	ctx.lineTo(side, floor);
-	ctx.stroke();
-}
+    var c = document.getElementById("canvas");
+    var ctx = c.getContext("2d");
+    var x = 95, y = 50;
+    var vX = 0, vY = 0;
+    var bounceFy = 3;
+    var bounceFx = 1;
+    var floor = 400, side = 700;
+    var size = 10;
+    var frame = 0;
+    var interval;
+    var resetInfo = function () {
+        x = 95, y = 50;
+        vX = 0, vY = 0;
+        bounceFy = 3;
+        bounceFx = 1;
+        floor = 400, side = 700;
+        size = 10;
+        frame = 0;
+    }
 
-var tick = function()
-{		
-	if((y + size) >= (floor - 1)	|| y - size <= 0)
-	{		
-		vY = -vY;
-		if(vY <= bounceFy && vY >= -bounceFy)
-		vY = 0;
-		else if(vY>0)
-		{
-		vY -= bounceFy;
-		}
-		else if(vY <0)
-		{
-		vY+=bounceFy;
-		}
-		if(vX <= bounceFx && vX >= -bounceFx)
-		vX = 0;	
-		else if(vX > bounceFx)
-		{
-		vX -= bounceFx
-		}
-		else if(vX < -bounceFx)
-		{
-		vX += bounceFx;
-		}
-		
-	}	
-	if(!((y + size) >= (floor - 1)))
-	{
-	//gravity
-		vY+=1;
-	}
-	document.getElementById("label").innerHTML = "The ball is traveling at yVelocity = " + vY + " and xVelocity = " + vX + " at (" + Math.floor(x) +", " + Math.floor(y) +")";
-	x+=vX;
-	y+=vY;
-	if((x + size) >= (side - 1)	|| x - size <= 0)
-	{		
-		vX = -vX;
-		if(vX <= bounceFx && vX >= -bounceFx)
-		vX = 0;		
-		else if(vX>0)
-		vX -= bounceFx;
-		else if(vX <0)
-		vX+=bounceFx;		
-	}
-		var adjusted = false;
-	if((y + size + vY) > (floor - 1))
-	{
-			y = (floor - 1) - size;
-			adjusted = true;
-	}
-	else if(y -size <= 0)
-			y = size;			
-	if((x + size) > (side - 1))
-			x = (side - 1) - size;
-	else if(x -size <= 0)
-			x = size;
-	draw();	
-	++frame;
-}
-var stopTicking = function()
-{
-	clearInterval(interval);
-}
+    var startButton = function () {
+        clearInterval(interval);
+        interval = setInterval(tick, 20);
+        vX = parseInt(document.getElementById("xin").value);
+        vY = parseInt(document.getElementById("yin").value);
+    }
+    var resume = function () {
+        clearInterval(interval);
+        interval = setInterval(tick, 20);
+    }
+
+    var resetButton = function () {
+        stopTicking();
+        resetInfo();
+        draw();
+    }
+    var draw = function () {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.beginPath();
+        ctx.fillStyle = "red";
+        ctx.arc(x, y, size, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(0, floor);
+        ctx.moveTo(0, 0);
+        ctx.lineTo(side, 0);
+        ctx.moveTo(0, floor);
+        ctx.lineTo(side, floor);
+        ctx.moveTo(side, 0);
+        ctx.lineTo(side, floor);
+        ctx.stroke();
+    }
+
+    var tick = function () {
+        if ((y + size) >= (floor - 1) || y - size <= 0) {
+            vY = -vY;
+            if (vY <= bounceFy && vY >= -bounceFy)
+                vY = 0;
+            else if (vY > 0) {
+                vY -= bounceFy;
+            }
+            else if (vY < 0) {
+                vY += bounceFy;
+            }
+            if (vX <= bounceFx && vX >= -bounceFx)
+                vX = 0;
+            else if (vX > bounceFx) {
+                vX -= bounceFx
+            }
+            else if (vX < -bounceFx) {
+                vX += bounceFx;
+            }
+
+        }
+        if (!((y + size) >= (floor - 1))) {
+            //gravity
+            vY += 1;
+        }
+        document.getElementById("label").innerHTML = "The ball is traveling at yVelocity = " + vY + " and xVelocity = " + vX + " at (" + Math.floor(x) + ", " + Math.floor(y) + ")";
+        x += vX;
+        y += vY;
+        if ((x + size) >= (side - 1) || x - size <= 0) {
+            vX = -vX;
+            if (vX <= bounceFx && vX >= -bounceFx)
+                vX = 0;
+            else if (vX > 0)
+                vX -= bounceFx;
+            else if (vX < 0)
+                vX += bounceFx;
+        }
+        var adjusted = false;
+        if ((y + size + vY) > (floor - 1)) {
+            y = (floor - 1) - size;
+            adjusted = true;
+        }
+        else if (y - size <= 0)
+            y = size;
+        if ((x + size) > (side - 1))
+            x = (side - 1) - size;
+        else if (x - size <= 0)
+            x = size;
+        draw();
+        ++frame;
+    }
+    var stopTicking = function () {
+        clearInterval(interval);
+    }
 
 </script>
 </html>
