@@ -1,37 +1,93 @@
 <html>
 <form>
-<button type = "button" id="start" onclick = "var interval = setInterval(tick, 10);">Start</button>
+<button type = "button" id="start" onclick = "var interval = setInterval(tick, 300);">Start</button>
 <button type = "button id = "stop" onclick = "stopTicking();">Stop</button>
 </form>
 <p id = "label"></p>
-<canvas id="canvas" width="800" height="450"
-style="border:3px solid black">
+<canvas id="canvas" width="800" height="450">
 </canvas>
 
 <script>
 var c = document.getElementById("canvas");
 var ctx = c.getContext("2d");
 var x = 95, y=50;
-var xAcceleration = 0, yV = 0;
+var vX = 20, vY = 0;
+var bounceFy = 3;
+var bounceFx = 1;
+var floor = 400, side = 700;
+var size = 10;
 var tick = function()
 {
-	if((y + 50) >= canvas.height || y <= 0)
+
+	
+	if((y + size) >= ((floor - 1) - 1)	|| y - size <= 0)
+	{		
+		vY = -vY;
+		if(vY <= bounceFy && vY >= -bounceFy)
+		vY = 0;		
+		else if(vY>0)
+		{
+		vY -= bounceFy;
+		}
+		else if(vY <0)
+		{
+		vY+=bounceFy;
+		}
+		if(vX <= bounceFx && vX >= -bounceFx)
+		vX = 0;	
+		else if(vX > bounceFx)
+		{
+		vX -= bounceFx
+		}
+		else if(vX < -bounceFx)
+		{
+		vX += bounceFx;
+		}
+		
+	}
+	if((x + size) >= (side - 1)	|| x - size <= 0)
+	{		
+		vX = -vX;
+		if(vX <= bounceFx && vX >= -bounceFx)
+		vX = 0;		
+		else if(vX>0)
+		vX -= bounceFx;
+		else if(vX <0)
+		vX+=bounceFx;		
+	}
+	else
 	{
-		yV = -yV;
-		if(yV>0)
-		yV -= 1;
-		else if(yV <0)
-		yV+=1;
+	//gravity
+		vY+=1;
 	}
 		
+	if((y + size) > (floor - 1))
+			y = (floor - 1) - size;
+	else if(y -size <= 0)
+			y = size;			
+	if((x + size) > (side - 1))
+			x = (side - 1) - size;
+	else if(x -size <= 0)
+			x = size;
+		
 	ctx.clearRect (0, 0, canvas.width, canvas.height);
-	if(y + 50 < canvas.height)
-	yV+=1;
-	document.getElementById("label").innerHTML = "The ball is traveling at yVelocity = " + yV + " at (" + Math.floor(x) +", " + Math.floor(y) +")";
-	x+=xAcceleration;
-	y+=yV;
+	document.getElementById("label").innerHTML = "The ball is traveling at yVelocity = " + vY + " and xVelocity = " + vX + " at (" + Math.floor(x) +", " + Math.floor(y) +")";
+	x+=vX;
+	y+=vY;
 	ctx.beginPath();
-	ctx.arc(x,y,40,0,2*Math.PI);
+	ctx.arc(x,y,size,0,2*Math.PI);	
+	ctx.font = "20px Courier New";
+	ctx.fillText("x = " + x + "y = " + y,x + 2*size, y + 2*size);
+	ctx.fillStyle = "red";
+	ctx.fill();
+	ctx.moveTo(0,0);
+	ctx.lineTo(0,floor);
+	ctx.moveTo(0,0);
+	ctx.lineTo(side, 0);
+	ctx.moveTo(0,floor);
+	ctx.lineTo(side,floor);
+	ctx.moveTo(side,0);
+	ctx.lineTo(side, floor);
 	ctx.stroke();
 }
 var stopTicking = function()
